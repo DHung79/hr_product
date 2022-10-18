@@ -1,0 +1,44 @@
+name: hr_product
+description: A new Flutter project.
+
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.17.6 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.2
+  provider: ^6.0.4
+  get_it: ^7.2.0
+  flutter_bloc: ^8.1.1
+  rxdart: ^0.27.5
+  http: ^0.13.5
+  shared_preferences: ^2.0.15
+  freezed_annotation: ^2.2.0
+  json_annotation: ^4.7.0
+  equatable: ^2.0.5
+  google_sign_in: ^5.4.2
+  validators: ^3.0.0
+  logger: ^1.1.0
+  flutter_svg: ^1.1.5
+  google_fonts: ^3.0.1
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+  build_runner: ^2.3.0
+  freezed: ^2.2.0
+  json_serializable: ^6.5.2
+
+flutter:
+
+  uses-material-design: true
+
+  assets:
+    - assets/
+    - assets/svg/
+
