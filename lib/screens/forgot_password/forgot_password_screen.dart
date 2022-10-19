@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hr_product/themes/jt_navigator_dot.dart';
 import 'package:validators/validators.dart';
 import '../../core/authentication/auth.dart';
 import '../../main.dart';
@@ -35,108 +36,79 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             // _showError(state.errorCode);
           }
           if (state is ForgotPasswordDoneState) {
-            navigateTo(otpRoute);
+            navigateTo(otpForgotPasswordRoute);
           }
         },
-        child: SafeArea(
-          child: LayoutBuilder(
-            builder: (context, size) {
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 500),
-                padding: size.maxWidth < 500
-                    ? EdgeInsets.zero
-                    : const EdgeInsets.all(30),
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                      constraints: BoxConstraints(maxWidth: size.maxWidth - 32),
-                      child: Form(
-                        autovalidateMode: _autovalidate,
-                        key: _key,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            backButton(),
-                            const Spacer(),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                inputFields(),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(16, 0, 0, 8),
-                                  child: Text(
-                                    _errorMessage,
-                                    style: JTTextStyle.subMedium(
-                                      color: JTColors.sysLightAlert,
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 24,
-                                  ),
-                                  child: forgotPasswordButton(),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 24,
-                                  ),
-                                  child: navigatoDot(),
-                                ),
-                              ],
-                            ),
-                            const Spacer(),
-                          ],
+        child: LayoutBuilder(
+          builder: (context, size) {
+            final screenSize = MediaQuery.of(context).size;
+            final bottomHeight = MediaQuery.of(context).viewInsets.bottom;
+            return SingleChildScrollView(
+              child: Container(
+                constraints: BoxConstraints(
+                  maxWidth: size.maxWidth,
+                  maxHeight: screenSize.height - bottomHeight,
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Form(
+                  autovalidateMode: _autovalidate,
+                  key: _key,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(top: 49),
+                        child: JTButtons.backButton(
+                          onTap: () {
+                            navigateTo(authenticationRoute);
+                          },
+                          child: Text(
+                            'Quên mật khẩu',
+                            style: JTTextStyle.h4Bold(color: JTColors.n800),
+                          ),
                         ),
                       ),
-                    ),
+                      const Spacer(),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          inputFields(),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 0, 0, 8),
+                            child: Text(
+                              _errorMessage,
+                              style: JTTextStyle.subMedium(
+                                color: JTColors.sysLightAlert,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 24,
+                            ),
+                            child: forgotPasswordButton(),
+                          ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 24,
+                            ),
+                            child: JTNavigatorDot(
+                              itemCount: 3,
+                              currentIndex: 1,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                    ],
                   ),
                 ),
-              );
-            },
-          ),
+              ),
+            );
+          },
         ),
       ),
-    );
-  }
-
-  Widget backButton() {
-    return Row(
-      children: [
-        InkWell(
-          onTap: () {
-            navigateTo(authenticationRoute);
-          },
-          child: ClipOval(
-            child: Container(
-              height: 44,
-              width: 44,
-              decoration: BoxDecoration(
-                border: Border.all(color: JTColors.n200),
-                color: JTColors.nWhite,
-                shape: BoxShape.circle,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: SvgIcon(
-                  SvgIcons.arrowBackward,
-                  size: 24,
-                ),
-              ),
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 16),
-          child: Text(
-            'Quên mật khẩu',
-            style: JTTextStyle.h4Bold(color: JTColors.n800),
-          ),
-        ),
-      ],
     );
   }
 
@@ -253,46 +225,12 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
       // AuthenticationBlocController().authenticationBloc.add(
       //       ForgotPassword(email: forgotPasswordEmailController.text),
       //     );
+      navigateTo(otpForgotPasswordRoute);
     } else {
       setState(() {
         _autovalidate = AutovalidateMode.onUserInteraction;
       });
     }
-  }
-
-  Widget navigatoDot() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          width: 40,
-          height: 10,
-          decoration: BoxDecoration(
-            color: JTColors.pPurple,
-            borderRadius: BorderRadius.circular(50),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Container(
-            width: 10,
-            height: 10,
-            decoration: BoxDecoration(
-              color: JTColors.n300,
-              shape: BoxShape.circle,
-            ),
-          ),
-        ),
-        Container(
-          width: 10,
-          height: 10,
-          decoration: BoxDecoration(
-            color: JTColors.n300,
-            shape: BoxShape.circle,
-          ),
-        ),
-      ],
-    );
   }
 
   // _showError(String errorCode) async {

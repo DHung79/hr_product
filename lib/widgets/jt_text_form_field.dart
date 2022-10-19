@@ -62,7 +62,21 @@ class _JTTextFormFieldState extends State<JTTextFormField> {
               : null,
           filled: true,
           fillColor: JTColors.nWhite,
-          focusedBorder: widget.isUnderLineBorder
+          // focusedBorder: widget.isUnderLineBorder
+          //     ? UnderlineInputBorder(
+          //         borderSide: BorderSide(
+          //           width: 3.0,
+          //           color: JTColors.sysLightAction,
+          //         ),
+          //         borderRadius: BorderRadius.circular(4),
+          //       )
+          //     : OutlineInputBorder(
+          //         borderSide: BorderSide(
+          //           color: JTColors.sysLightAction,
+          //         ),
+          //         borderRadius: BorderRadius.circular(4),
+          //       ),
+          enabledBorder: widget.isUnderLineBorder
               ? UnderlineInputBorder(
                   borderSide: BorderSide(
                     width: 3.0,
@@ -104,7 +118,7 @@ class _JTTextFormFieldState extends State<JTTextFormField> {
                   ),
                   borderRadius: BorderRadius.circular(4),
                 ),
-          errorStyle: TextStyle(fontSize: 0),
+          errorStyle: const TextStyle(fontSize: 0),
           hintText: widget.hintText,
           hintStyle: JTTextStyle.mediumBodyText(color: JTColors.n500),
         ),

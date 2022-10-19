@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hr_product/screens/otp/otp_screen.dart';
 import '../main.dart';
 import '../screens/forgot_password/forgot_password_screen.dart';
 import '../screens/onboarding/authentication_screen.dart';
@@ -47,6 +48,12 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     }
     if (route == forgotPasswordRoute) {
       return const ForgotPasswordScreen();
+    }
+    if (route == otpForgotPasswordRoute) {
+      return const OtpScreen();
+    }
+    if (route == otpRegisterRoute) {
+      return const OtpScreen(isRegister: true);
     }
     // if (route.startsWith(homeRoute)) {
     //   if (route.length > homeRoute.length) {

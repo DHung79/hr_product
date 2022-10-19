@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 class JTColors {
   static Color pPurple = hexToColor('#8350C3');
   static Color pBlue = hexToColor('#6E4CF8');
-  static Gradient pGradient = LinearGradient(
-    colors: <Color>[
-      JTColors.pPurple,
-      JTColors.pBlue,
-    ],
+  static List<Color> pGradient = [
+    JTColors.pPurple,
+    JTColors.pBlue,
+  ];
+  static Gradient gradientHorizontal = LinearGradient(
+    colors: JTColors.pGradient,
+  );
+  static Gradient gradientVertical = LinearGradient(
+    colors: JTColors.pGradient,
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
   );
 
   static Color sLightPurple = hexToColor('#9E85E7');

@@ -90,7 +90,9 @@ class _LoginFormState extends State<LoginForm> {
                     ),
                     Padding(
                       padding: const EdgeInsets.symmetric(
-                          vertical: 28, horizontal: 16),
+                        vertical: 28,
+                        horizontal: 16,
+                      ),
                       child: JTButtons.rounded(
                         color: JTColors.pPurple,
                         child: Text(
@@ -138,7 +140,7 @@ class _LoginFormState extends State<LoginForm> {
   }
 
   Widget _googleLoginButon() {
-    return JTButtons.rounded(
+    return JTButtons.outline(
       width: 338,
       height: 44,
       color: JTColors.nWhite,

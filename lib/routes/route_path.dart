@@ -25,8 +25,13 @@ class AppRoutePath {
         routeId = '',
         isUnknown = false;
 
-  AppRoutePath.otp()
-      : name = otpRoute,
+  AppRoutePath.otpForgotPassword()
+      : name = otpForgotPasswordRoute,
+        routeId = '',
+        isUnknown = false;
+
+  AppRoutePath.otpRegister()
+      : name = otpRegisterRoute,
         routeId = '',
         isUnknown = false;
 
@@ -51,8 +56,11 @@ class AppRoutePath {
     if (name == forgotPasswordRoute) {
       return AppRoutePath.forgotPassword();
     }
-    if (name == otpRoute) {
-      return AppRoutePath.otp();
+    if (name == otpForgotPasswordRoute) {
+      return AppRoutePath.otpForgotPassword();
+    }
+    if (name == otpRegisterRoute) {
+      return AppRoutePath.otpRegister();
     }
     if (name == resetPasswordRoute) {
       return AppRoutePath.resetPassword();

@@ -4,8 +4,16 @@ import 'package:google_fonts/google_fonts.dart';
 
 class JTTextStyle {
   static TextStyle h2Bold({Color color = Colors.black}) {
-    return GoogleFonts.lexend(
+    return GoogleFonts.inter(
       fontWeight: FontWeight.w700,
+      color: color,
+      fontSize: 24,
+    );
+  }
+
+  static TextStyle h2Medium({Color color = Colors.black}) {
+    return GoogleFonts.inter(
+      fontWeight: FontWeight.w500,
       color: color,
       fontSize: 24,
     );
@@ -43,8 +51,8 @@ class JTTextStyle {
     );
   }
 
-  static TextStyle normalHeaderTitleLine({Color color = Colors.black}) {
-    return GoogleFonts.lexend(
+  static TextStyle standardMedium({Color color = Colors.black}) {
+    return GoogleFonts.inter(
         fontWeight: FontWeight.w500,
         color: color,
         fontSize: 16,
