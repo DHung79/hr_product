@@ -19,6 +19,14 @@ class JTTextStyle {
     );
   }
 
+  static TextStyle h3Bold({Color color = Colors.black}) {
+    return GoogleFonts.inter(
+      fontWeight: FontWeight.w700,
+      color: color,
+      fontSize: 20,
+    );
+  }
+
   static TextStyle h4Bold({Color color = Colors.black}) {
     return GoogleFonts.inter(
       fontWeight: FontWeight.w700,
@@ -59,9 +67,9 @@ class JTTextStyle {
         textStyle: const TextStyle(decoration: TextDecoration.lineThrough));
   }
 
-  static TextStyle boldBodyText({Color color = Colors.black}) {
-    return GoogleFonts.lexend(
-      fontWeight: FontWeight.w700,
+  static TextStyle bodyMedium({Color color = Colors.black}) {
+    return GoogleFonts.inter(
+      fontWeight: FontWeight.w500,
       color: color,
       fontSize: 14,
     );

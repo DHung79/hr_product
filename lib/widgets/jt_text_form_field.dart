@@ -13,6 +13,7 @@ class JTTextFormField extends StatefulWidget {
   final String? hintText;
   final Widget? prefixIcon;
   final bool isUnderLineBorder;
+  final bool disableError;
   const JTTextFormField({
     Key? key,
     this.controller,
@@ -26,6 +27,7 @@ class JTTextFormField extends StatefulWidget {
     this.obscureText = false,
     this.prefixIcon,
     this.isUnderLineBorder = false,
+    this.disableError = true,
   }) : super(key: key);
 
   @override
@@ -118,7 +120,7 @@ class _JTTextFormFieldState extends State<JTTextFormField> {
                   ),
                   borderRadius: BorderRadius.circular(4),
                 ),
-          errorStyle: const TextStyle(fontSize: 0),
+          errorStyle: widget.disableError ? const TextStyle(fontSize: 0) : null,
           hintText: widget.hintText,
           hintStyle: JTTextStyle.mediumBodyText(color: JTColors.n500),
         ),

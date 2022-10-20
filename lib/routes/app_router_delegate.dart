@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:hr_product/screens/otp/otp_screen.dart';
+import 'no_animation_transition_delegate.dart';
+import 'route_path.dart';
 import '../main.dart';
 import '../screens/forgot_password/forgot_password_screen.dart';
 import '../screens/onboarding/authentication_screen.dart';
-import 'no_animation_transition_delegate.dart';
-import 'route_path.dart';
+import '../screens/register/register_screen.dart';
 
 class AppRouterDelegate extends RouterDelegate<AppRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<AppRoutePath> {
@@ -50,10 +50,27 @@ class AppRouterDelegate extends RouterDelegate<AppRoutePath>
       return const ForgotPasswordScreen();
     }
     if (route == otpForgotPasswordRoute) {
-      return const OtpScreen();
+      return const ForgotPasswordScreen(
+        pageIndex: 2,
+      );
+    }
+    if (route == resetPasswordRoute) {
+      return const ForgotPasswordScreen(
+        pageIndex: 3,
+      );
+    }
+    if (route == registerRoute) {
+      return const RegisterScreen();
     }
     if (route == otpRegisterRoute) {
-      return const OtpScreen(isRegister: true);
+      return const RegisterScreen(
+        pageIndex: 2,
+      );
+    }
+    if (route == enterUserInfoRoute) {
+      return const RegisterScreen(
+        pageIndex: 3,
+      );
     }
     // if (route.startsWith(homeRoute)) {
     //   if (route.length > homeRoute.length) {

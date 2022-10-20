@@ -3,6 +3,7 @@ export 'jt_colors.dart';
 export 'jt_text_style.dart';
 export 'jt_buttons.dart';
 export 'jt_svg.dart';
+export 'jt_divider.dart';
 
 class JTThemeConfig {
   static ThemeData createTheme({

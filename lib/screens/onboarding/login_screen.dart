@@ -16,17 +16,18 @@ class LoginForm extends StatefulWidget {
 
 class _LoginFormState extends State<LoginForm> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  // bool _passwordSecure = true;
-  String? _errorMessage = '';
   AutovalidateMode _autovalidate = AutovalidateMode.disabled;
-  bool? _isKeepSession = false;
-  bool _passwordSecure = true;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  bool _isRememberPassword = false;
+  String? _errorMessage = '';
+  final emailController = TextEditingController();
   bool _isUserValidate = false;
+
+  final passwordController = TextEditingController();
+  bool _passwordSecure = true;
   bool _isPasswordValidate = false;
+
+  bool? _isKeepSession = false;
+  bool _isRememberPassword = false;
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
 
   @override
   void didChangeDependencies() {
@@ -59,10 +60,18 @@ class _LoginFormState extends State<LoginForm> {
         builder: (context, size) {
           return Column(
             children: [
-              _googleLoginButon(),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 38),
+                child: JTButtons.googleButon(
+                  title: 'Đăng nhập với Google',
+                  onPressed: () {
+                    // _loginGoogle();
+                  },
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 17, 0, 37),
-                child: _orDivider(),
+                child: JTDivider.or(),
               ),
               Form(
                 autovalidateMode: _autovalidate,
@@ -102,32 +111,19 @@ class _LoginFormState extends State<LoginForm> {
                         onPressed: () => _login(),
                       ),
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Chưa có tài khoản?',
-                          style: JTTextStyle.normalText(color: JTColors.n500),
-                        ),
-                        InkWell(
-                          splashColor: JTColors.transparent,
-                          highlightColor: JTColors.transparent,
-                          onTap: () {
-                            navigateTo(registerRoute);
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 14.5,
-                              vertical: 11.5,
-                            ),
-                            child: Text(
-                              'Đăng ký',
-                              style: JTTextStyle.link(
-                                  color: JTColors.sysLightAction),
-                            ),
-                          ),
-                        )
-                      ],
+                    JTButtons.questionLink(
+                      question: Text(
+                        'Chưa có tài khoản?',
+                        style: JTTextStyle.normalText(color: JTColors.n500),
+                      ),
+                      link: 'Đăng ký',
+                      onTap: () {
+                        navigateTo(registerRoute);
+                      },
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14.5,
+                        vertical: 11.5,
+                      ),
                     ),
                   ],
                 ),
@@ -139,110 +135,53 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  Widget _googleLoginButon() {
-    return JTButtons.outline(
-      width: 338,
-      height: 44,
-      color: JTColors.nWhite,
-      borderRadius: BorderRadius.circular(6),
-      border: Border.all(color: JTColors.pPurple),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgIcon(
-            SvgIcons.google,
-            size: 24,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Text(
-              'Đăng nhập với Google',
-              style: JTTextStyle.normalText(color: JTColors.pPurple),
-            ),
-          ),
-        ],
-      ),
-      onPressed: () {
-        // _loginGoogle();
-      },
-    );
-  }
-
-  Widget _orDivider() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Container(
-          height: 1,
-          width: 61,
-          color: JTColors.n500,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 17),
-          child: Text(
-            'Hoặc',
-            style: JTTextStyle.normalText(color: JTColors.n500),
-          ),
-        ),
-        Container(
-          height: 1,
-          width: 61,
-          color: JTColors.n500,
-        ),
-      ],
-    );
-  }
-
   Widget _inputFields() {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 6),
-          child: JTTextFormField(
-            prefixIcon: Padding(
-              padding: const EdgeInsets.all(10),
-              child: _isUserValidate
-                  ? SvgIcon(
-                      SvgIcons.warning,
-                      color: JTColors.sysLightAlert,
-                    )
-                  : SvgIcon(
-                      SvgIcons.user,
-                      color: JTColors.n300,
-                    ),
-            ),
-            hintText: 'Tài khoản/Email',
-            keyboardType: TextInputType.emailAddress,
-            controller: emailController,
-            onSaved: (value) {
-              emailController.text = value!.trim();
-            },
-            onChanged: (value) {
-              setState(() {
-                if (_errorMessage!.isNotEmpty) {
-                  _errorMessage = '';
-                }
-              });
-            },
-            validator: (value) {
-              if (value!.isEmpty || value.trim().isEmpty) {
-                _isUserValidate = true;
-                _errorMessage = 'Tài khoản hoặc mật khẩu không được để trống';
-                return '';
-              }
-              if (!isEmail(value.trim())) {
-                _isUserValidate = true;
-                _errorMessage = 'Email không hợp lệ';
-                return '';
-              } else {
-                _isUserValidate = false;
-                return null;
-              }
-            },
+        JTTextFormField(
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(10),
+            child: _isUserValidate
+                ? SvgIcon(
+                    SvgIcons.warning,
+                    color: JTColors.sysLightAlert,
+                  )
+                : SvgIcon(
+                    SvgIcons.user,
+                    color: JTColors.n300,
+                  ),
           ),
+          hintText: 'Tài khoản/Email',
+          keyboardType: TextInputType.emailAddress,
+          controller: emailController,
+          onSaved: (value) {
+            emailController.text = value!.trim();
+          },
+          onChanged: (value) {
+            setState(() {
+              if (_errorMessage!.isNotEmpty) {
+                _errorMessage = '';
+              }
+            });
+          },
+          validator: (value) {
+            if (value!.isEmpty || value.trim().isEmpty) {
+              _isUserValidate = true;
+              _errorMessage = 'Tài khoản hoặc mật khẩu không được để trống';
+              return '';
+            }
+            if (!isEmail(value.trim())) {
+              _isUserValidate = true;
+              _errorMessage = 'Email không hợp lệ';
+              return '';
+            } else {
+              _isUserValidate = false;
+              return null;
+            }
+          },
         ),
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 12),
+          padding: const EdgeInsets.only(top: 29),
           child: JTTextFormField(
             prefixIcon: Padding(
               padding: const EdgeInsets.all(10),

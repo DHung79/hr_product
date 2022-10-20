@@ -33,7 +33,17 @@ class _PageTemplateState extends State<PageTemplate> {
       child: Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: JTColors.nWhite,
-        body: widget.child,
+        body: LayoutBuilder(builder: (context, size) {
+          final screenSize = MediaQuery.of(context).size;
+          final bottomHeight = MediaQuery.of(context).viewInsets.bottom;
+          return SingleChildScrollView(
+            child: SizedBox(
+              width: size.maxWidth,
+              height: screenSize.height - bottomHeight,
+              child: widget.child,
+            ),
+          );
+        }),
       ),
     );
   }

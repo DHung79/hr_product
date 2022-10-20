@@ -1,33 +1,29 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hr_product/widgets/jt_indicator.dart';
-import '../../core/authentication/bloc/authentication/authentication_bloc.dart';
-import '../../core/authentication/bloc/authentication/authentication_state.dart';
+import 'package:hr_product/main.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
-import '../../main.dart';
-import '../../themes/jt_navigator_dot.dart';
 import '../../themes/jt_theme.dart';
 
-class OtpScreen extends StatefulWidget {
+class OtpForm extends StatefulWidget {
   final bool isRegister;
-  const OtpScreen({
+  const OtpForm({
     Key? key,
     this.isRegister = false,
   }) : super(key: key);
 
   @override
-  State<OtpScreen> createState() => _OtpScreenState();
+  State<OtpForm> createState() => _OtpFormState();
 }
 
-class _OtpScreenState extends State<OtpScreen> {
+class _OtpFormState extends State<OtpForm> {
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  AutovalidateMode _autovalidate = AutovalidateMode.disabled;
   String _errorMessage = '';
   final TextEditingController _otpController = TextEditingController();
-  AutovalidateMode _autovalidate = AutovalidateMode.disabled;
-  final GlobalKey<FormState> _key = GlobalKey<FormState>();
   Timer? _delayResend;
   Timer? _delayCheckOtp;
   bool _lockResend = false;
+  int _resendOtpCountDown = 180;
   bool _processing = false;
 
   @override
@@ -45,72 +41,23 @@ class _OtpScreenState extends State<OtpScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return PageTemplate(
-      child: BlocListener<AuthenticationBloc, AuthenticationState>(
-        bloc: AuthenticationBlocController().authenticationBloc,
-        listener: (context, state) {
-          if (state is AuthenticationFailure) {
-            // _showError(state.errorCode);
-          } else if (state is CheckOTPDoneState) {
-            if (widget.isRegister) {
-              navigateTo(enterUserInfoRoute);
-            } else {
-              navigateTo(resetPasswordRoute);
-            }
-          }
-        },
-        child: Form(
-          autovalidateMode: _autovalidate,
-          key: _key,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 49),
-                child: JTButtons.backButton(
-                  onTap: () {
-                    if (widget.isRegister) {
-                      navigateTo(registerRoute);
-                    } else {
-                      navigateTo(forgotPasswordRoute);
-                    }
-                  },
-                  child: Text(
-                    'Xác minh email',
-                    style: JTTextStyle.h4Bold(color: JTColors.n800),
-                  ),
-                ),
+    return Form(
+      autovalidateMode: _autovalidate,
+      key: _key,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _otpInput(),
+          Center(
+            child: Text(
+              _errorMessage,
+              style: JTTextStyle.subMedium(
+                color: JTColors.sysLightAlert,
               ),
-              const Spacer(),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  _otpInput(),
-                  Center(
-                    child: Text(
-                      _errorMessage,
-                      style: JTTextStyle.subMedium(
-                        color: JTColors.sysLightAlert,
-                      ),
-                    ),
-                  ),
-                  _actions(),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 24,
-                    ),
-                    child: JTNavigatorDot(
-                      itemCount: 3,
-                      currentIndex: 2,
-                    ),
-                  ),
-                ],
-              ),
-              const Spacer(),
-            ],
+            ),
           ),
-        ),
+          _actions(),
+        ],
       ),
     );
   }
@@ -160,10 +107,13 @@ class _OtpScreenState extends State<OtpScreen> {
             borderRadius: BorderRadius.circular(8),
             fieldHeight: 48,
             fieldWidth: 48,
+            borderWidth: 1,
             activeFillColor: JTColors.nBackground,
             selectedFillColor: JTColors.nBackground,
             // disabledColor: ColorApp.purpleColor,
-            activeColor: JTColors.nBackground,
+            activeColor: _errorMessage.isNotEmpty
+                ? JTColors.sysLightAlert
+                : JTColors.nBackground,
             selectedColor: JTColors.n500,
             inactiveColor: JTColors.nBackground,
             inactiveFillColor: JTColors.nBackground,
@@ -182,7 +132,11 @@ class _OtpScreenState extends State<OtpScreen> {
           },
           validator: (value) {
             if (value!.isEmpty || value.trim().isEmpty) {
-              _errorMessage = '';
+              _errorMessage = 'Mã OTP không được để trống';
+              return '';
+            }
+            if (_otpController.text != '1234') {
+              _errorMessage = 'Mã OTP không chính xác';
               return '';
             } else {
               _errorMessage = '';
@@ -215,58 +169,97 @@ class _OtpScreenState extends State<OtpScreen> {
               'Xác nhận',
               style: JTTextStyle.normalText(color: JTColors.nWhite),
             ),
-            onPressed: _checkOTP,
+            onPressed: () {
+              _checkOTP();
+            },
           ),
         ),
-        Center(
-          child: Text(
-            'Bạn không nhận được mã?',
-            style: JTTextStyle.bodyMedium(
-              color: JTColors.n500,
-            ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(4),
-          child: JTButtons.rounded(
-            color: JTColors.nWhite,
-            prefixIcon: SvgIcon(
-              SvgIcons.reload,
-              color: JTColors.sysLightAction,
-            ),
-            child: Text(
-              'Gửi lại',
-              style: JTTextStyle.normalText(
-                color: JTColors.sysLightAction,
-              ),
-            ),
-            onPressed: () {},
-          ),
-        ),
+        _resendBuild(),
       ],
     );
   }
 
-  // _resendOTP() {
-  //   setState(() {
-  //     _otpController.clear();
-  //     _errorMessage = '';
-  //     _lockResend = true;
-  //     _delayResend = Timer.periodic(const Duration(minutes: 5), (timer) {
-  //       if (timer.tick == 1) {
-  //         timer.cancel();
-  //         setState(() {
-  //           _lockResend = false;
-  //         });
-  //       }
-  //     });
-  //   });
-  //   AuthenticationBlocController().authenticationBloc.add(
-  //         SendOTP(
-  //           email: forgotPasswordEmailController.text,
-  //         ),
-  //       );
-  // }
+  _resendBuild() {
+    if (_lockResend) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(right: 4),
+            child: Text(
+              'Gửi lại mã trong:',
+              style: JTTextStyle.bodyMedium(
+                color: JTColors.n500,
+              ),
+            ),
+          ),
+          Text(
+            '${_resendOtpCountDown}s',
+            style: JTTextStyle.bodyMedium(
+              color: JTColors.n800,
+            ),
+          ),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          Center(
+            child: Text(
+              'Bạn không nhận được mã?',
+              style: JTTextStyle.bodyMedium(
+                color: JTColors.n500,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4),
+            child: JTButtons.rounded(
+              color: JTColors.nWhite,
+              prefixIcon: SvgIcon(
+                SvgIcons.reload,
+                color: JTColors.sysLightAction,
+              ),
+              child: Text(
+                'Gửi lại',
+                style: JTTextStyle.normalText(
+                  color: JTColors.sysLightAction,
+                ),
+              ),
+              onPressed: () {
+                _resendOTP();
+              },
+            ),
+          ),
+        ],
+      );
+    }
+  }
+
+  _resendOTP() {
+    setState(() {
+      _otpController.clear();
+      _errorMessage = '';
+      _lockResend = true;
+      _delayResend = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_resendOtpCountDown == 0) {
+          setState(() {
+            timer.cancel();
+            _lockResend = false;
+          });
+        } else {
+          setState(() {
+            _resendOtpCountDown--;
+          });
+        }
+      });
+    });
+    // AuthenticationBlocController().authenticationBloc.add(
+    //       SendOTP(
+    //         email: forgotPasswordEmailController.text,
+    //       ),
+    //     );
+  }
 
   _checkOTP() {
     setState(() {
@@ -283,6 +276,12 @@ class _OtpScreenState extends State<OtpScreen> {
     });
     if (_key.currentState!.validate()) {
       _key.currentState!.save();
+      if (widget.isRegister) {
+        navigateTo(enterUserInfoRoute);
+      } else {
+        navigateTo(resetPasswordRoute);
+      }
+
       // if (widget.isRegister) {
       //   AuthenticationBlocController().authenticationBloc.add(
       //         CheckOTPRegister(otp: _otpController.text),

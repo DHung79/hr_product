@@ -15,7 +15,7 @@ class JTButtons {
   }) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: borderRadius ?? BorderRadius.circular(10),
+        borderRadius: borderRadius ?? BorderRadius.circular(4),
       ),
       constraints: BoxConstraints(
         maxWidth: width ?? double.infinity,
@@ -26,7 +26,7 @@ class JTButtons {
           primary: splashColor,
           backgroundColor: color,
           shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(10),
+            borderRadius: borderRadius ?? BorderRadius.circular(4),
           ),
         ),
         onPressed: onPressed,
@@ -34,7 +34,10 @@ class JTButtons {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             if (prefixIcon != null) prefixIcon,
-            child,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: child,
+            ),
             if (suffixIcon != null) suffixIcon,
           ],
         ),
@@ -55,7 +58,7 @@ class JTButtons {
     return Container(
       decoration: BoxDecoration(
         border: border ?? Border.all(color: JTColors.transparent),
-        borderRadius: borderRadius ?? BorderRadius.circular(10),
+        borderRadius: borderRadius ?? BorderRadius.circular(4),
       ),
       constraints: BoxConstraints(
         maxWidth: width ?? double.infinity,
@@ -66,7 +69,7 @@ class JTButtons {
           primary: splashColor,
           backgroundColor: color,
           shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(10),
+            borderRadius: borderRadius ?? BorderRadius.circular(4),
           ),
         ),
         onPressed: onPressed,
@@ -88,7 +91,7 @@ class JTButtons {
     return Container(
       decoration: BoxDecoration(
         border: border ?? Border.all(color: JTColors.transparent),
-        borderRadius: borderRadius ?? BorderRadius.circular(10),
+        borderRadius: borderRadius ?? BorderRadius.circular(4),
         gradient: gradient,
       ),
       constraints: BoxConstraints(
@@ -99,7 +102,7 @@ class JTButtons {
         style: TextButton.styleFrom(
           primary: splashColor,
           shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(10),
+            borderRadius: borderRadius ?? BorderRadius.circular(4),
           ),
         ),
         onPressed: onPressed,
@@ -141,6 +144,73 @@ class JTButtons {
           padding: const EdgeInsets.only(left: 16),
           child: child,
         ),
+      ],
+    );
+  }
+
+  static Widget googleButon({
+    required void Function()? onPressed,
+    required String title,
+  }) {
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: JTColors.pPurple),
+        borderRadius: BorderRadius.circular(6),
+      ),
+      constraints: const BoxConstraints(
+        minWidth: 338,
+        maxHeight: 44,
+      ),
+      child: TextButton(
+        style: TextButton.styleFrom(
+          backgroundColor: JTColors.nWhite,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(6),
+          ),
+        ),
+        onPressed: onPressed,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgIcon(
+              SvgIcons.google,
+              size: 24,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                title,
+                style: JTTextStyle.normalText(color: JTColors.pPurple),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static Widget questionLink({
+    required Widget question,
+    required String link,
+    required Function() onTap,
+    required EdgeInsetsGeometry padding,
+  }) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        question,
+        InkWell(
+          splashColor: JTColors.transparent,
+          highlightColor: JTColors.transparent,
+          onTap: onTap,
+          child: Padding(
+            padding: padding,
+            child: Text(
+              link,
+              style: JTTextStyle.link(color: JTColors.sysLightAction),
+            ),
+          ),
+        )
       ],
     );
   }

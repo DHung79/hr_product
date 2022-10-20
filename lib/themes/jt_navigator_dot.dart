@@ -16,29 +16,18 @@ class JTNavigatorDot extends StatelessWidget {
       alignment: WrapAlignment.center,
       spacing: 8,
       children: [
-        for (var i = 1; i <= itemCount; i++)
-          i == currentIndex ? _buildLine() : _buildDot()
+        for (var i = 1; i <= itemCount; i++) _buildDot(currentIndex == i)
       ],
     );
   }
 
-  Widget _buildDot() {
-    return Container(
-      width: 10,
+  Widget _buildDot(bool isLine) {
+    return AnimatedContainer(
+      width: isLine ? 40 : 10,
       height: 10,
+      duration: const Duration(milliseconds: 300),
       decoration: BoxDecoration(
-        color: JTColors.n300,
-        shape: BoxShape.circle,
-      ),
-    );
-  }
-
-  Widget _buildLine() {
-    return Container(
-      width: 40,
-      height: 10,
-      decoration: BoxDecoration(
-        color: JTColors.pPurple,
+        color: isLine ? JTColors.pPurple : JTColors.n300,
         borderRadius: BorderRadius.circular(50),
       ),
     );
