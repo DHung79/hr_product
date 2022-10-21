@@ -62,15 +62,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 ),
               const Spacer(),
               _getForm(),
-              // if (widget.pageIndex != 1)
+              if (widget.pageIndex != 1)
                 Padding(
                   padding: const EdgeInsets.symmetric(
                     vertical: 24,
                   ),
                   child: JTNavigatorDot(
                     itemCount: 2,
-                    // currentIndex: widget.pageIndex - 1,
-                    currentIndex: 2,
+                    currentIndex: widget.pageIndex - 1,
                   ),
                 ),
               const Spacer(),
@@ -82,7 +81,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _getForm() {
-    if (widget.pageIndex == 3) {
+    if (widget.pageIndex == 1) {
       final screenSize = MediaQuery.of(context).size;
       final bottomHeight = MediaQuery.of(context).viewInsets.bottom;
       return SizedBox(
