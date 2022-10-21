@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../themes/jt_theme.dart';
 
 class JTTextFormField extends StatefulWidget {
   final TextEditingController? controller;
   final TextInputType? keyboardType;
+  final List<TextInputFormatter>? inputFormatters;
   final Function(String?)? onSaved;
   final Function(String)? onChanged;
   final String? Function(String?)? validator;
@@ -17,14 +19,15 @@ class JTTextFormField extends StatefulWidget {
   const JTTextFormField({
     Key? key,
     this.controller,
+    this.keyboardType,
+    this.inputFormatters,
     this.onSaved,
     this.onChanged,
     this.validator,
-    this.keyboardType,
     this.isPassword = false,
+    this.obscureText = false,
     this.passwordIconOnPressed,
     this.hintText,
-    this.obscureText = false,
     this.prefixIcon,
     this.isUnderLineBorder = false,
     this.disableError = true,
@@ -41,9 +44,11 @@ class _JTTextFormFieldState extends State<JTTextFormField> {
       constraints: const BoxConstraints(minHeight: 44),
       child: TextFormField(
         keyboardType: widget.keyboardType,
+        inputFormatters: widget.inputFormatters,
         obscureText: widget.obscureText,
         style: TextStyle(color: JTColors.nBlack),
         decoration: InputDecoration(
+          contentPadding: const EdgeInsets.symmetric(horizontal: 16),
           prefixIcon: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: widget.prefixIcon,

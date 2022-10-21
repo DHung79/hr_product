@@ -126,4 +126,36 @@ class JTTextStyle {
       fontSize: 10,
     );
   }
+
+  static TextStyle headline4({Color color = Colors.black}) {
+    return GoogleFonts.roboto(
+      fontWeight: FontWeight.w400,
+      color: color,
+      fontSize: 34,
+    );
+  }
+
+  static TextStyle body1({Color color = Colors.black}) {
+    return GoogleFonts.roboto(
+      fontWeight: FontWeight.w400,
+      color: color,
+      fontSize: 16,
+    );
+  }
+
+  static TextStyle subtitle2({Color color = Colors.black}) {
+    return GoogleFonts.roboto(
+      fontWeight: FontWeight.w500,
+      color: color,
+      fontSize: 14,
+    );
+  }
+
+  static TextStyle overline({Color color = Colors.black}) {
+    return GoogleFonts.roboto(
+      fontWeight: FontWeight.w500,
+      color: color,
+      fontSize: 10,
+    );
+  }
 }

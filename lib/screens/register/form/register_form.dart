@@ -83,7 +83,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   ),
                   link: 'Điều khoản và Chính sách sử dụng',
                   onTap: () {
-                    navigateTo(authenticationRoute);
+                    _showPolity();
                   },
                   padding: const EdgeInsets.symmetric(
                     horizontal: 7.5,
@@ -348,6 +348,8 @@ class _RegisterFormState extends State<RegisterForm> {
       });
     }
   }
+
+  _showPolity() {}
 
   // _showError(String errorCode) async {
   //   setState(() {

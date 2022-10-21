@@ -15,7 +15,7 @@ class JTButtons {
   }) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: borderRadius ?? BorderRadius.circular(4),
+        borderRadius: borderRadius ?? BorderRadius.circular(10),
       ),
       constraints: BoxConstraints(
         maxWidth: width ?? double.infinity,
@@ -26,7 +26,7 @@ class JTButtons {
           primary: splashColor,
           backgroundColor: color,
           shape: RoundedRectangleBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(4),
+            borderRadius: borderRadius ?? BorderRadius.circular(10),
           ),
         ),
         onPressed: onPressed,
