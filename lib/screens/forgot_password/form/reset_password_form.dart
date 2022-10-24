@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hr_product/themes/jt_validator.dart';
 import '../../../main.dart';
 import '../../../themes/jt_theme.dart';
 import '../../../widgets/jt_text_form_field.dart';
