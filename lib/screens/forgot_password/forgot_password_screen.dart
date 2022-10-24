@@ -42,10 +42,11 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           }
         },
         child: LayoutBuilder(builder: (context, size) {
+          final screenSize = MediaQuery.of(context).size;
           final bottomHeight = MediaQuery.of(context).viewInsets.bottom;
           return SingleChildScrollView(
             child: SizedBox(
-              height: size.maxHeight - bottomHeight,
+              height: screenSize.height - bottomHeight,
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Column(

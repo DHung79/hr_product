@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hr_product/themes/jt_validator.dart';
 import '../../../main.dart';
 import '../../../themes/jt_theme.dart';
 import '../../../widgets/jt_text_form_field.dart';
@@ -119,25 +120,11 @@ class _ResetPasswordFormState extends State<ResetPasswordForm> {
               });
             },
             validator: (value) {
-              if (value!.trim().isEmpty) {
-                _isPasswordValidate = true;
-                _errorMessage = 'Mật khẩu không được để trống';
-                return '';
-              }
-              if (value.length < 6) {
-                _isPasswordValidate = true;
-                _errorMessage = 'Mật khẩu có ít nhất 6 kí tự';
-                return '';
-              }
-              if (value.length > 50) {
-                _isPasswordValidate = true;
-                _errorMessage = 'Mật khẩu có nhiều nhất 50 kí tự';
-                return '';
-              } else {
-                _errorMessage = '';
-                _isPasswordValidate = false;
-                return null;
-              }
+              return JTValidator.passwordValidator(value, (isValidate) {
+                _isPasswordValidate = isValidate;
+              }, (error) {
+                _errorMessage = error;
+              });
             },
           ),
         ),

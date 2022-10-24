@@ -211,34 +211,14 @@ class _RegisterFormState extends State<RegisterForm> {
               });
             },
             validator: (value) {
-              if (value!.trim().isEmpty) {
-                _isPasswordValidate = true;
-                // if (!_isUserValidate) {
-                //   _errorMessage = 'Mật khẩu không được để trống';
-                // }
-                // return '';
-                return 'Mật khẩu không được để trống';
-              }
-              if (value.length < 6) {
-                _isPasswordValidate = true;
-                // if (!_isUserValidate) {
-                //   _errorMessage = 'Mật khẩu có ít nhất 6 kí tự';
-                // }
-                // return '';
-                return 'Mật khẩu có ít nhất 6 kí tự';
-              }
-              if (value.length > 50) {
-                _isPasswordValidate = true;
-                // if (!_isUserValidate) {
-                //   _errorMessage = 'Mật khẩu có nhiều nhất 50 kí tự';
-                // }
-                // return '';
-                return 'Mật khẩu có nhiều nhất 50 kí tự';
+              JTValidator.passwordValidator(value, (isValidate) {
+                _isPasswordValidate = isValidate;
+              }, (error) {
+                _errorMessage = error;
+              });
+              if (_errorMessage.isNotEmpty) {
+                return _errorMessage;
               } else {
-                _isPasswordValidate = false;
-                // if (!_isUserValidate) {
-                //   _errorMessage = '';
-                // }
                 return null;
               }
             },

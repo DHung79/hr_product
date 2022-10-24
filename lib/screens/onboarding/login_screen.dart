@@ -225,8 +225,8 @@ class _LoginFormState extends State<LoginForm> {
                 _isPasswordValidate = true;
                 return '';
               }
-              if (value.length > 50) {
-                _errorMessage = 'Mật khẩu có nhiều nhất 50 kí tự';
+              if (value.length > 20) {
+                _errorMessage = 'Mật khẩu có nhiều nhất 20 kí tự';
                 _isPasswordValidate = true;
                 return '';
               } else {
